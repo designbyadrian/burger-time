@@ -5,6 +5,7 @@ bt.controller('MainCtrl', ['$scope','$http',function($scope,$http) {
 	$scope.showmenu = false;
 	$scope.order = [];
 	$scope.menu = [];
+	$scope.popular = [];
 	$scope.showAll = false;
 
 
@@ -20,9 +21,24 @@ bt.controller('MainCtrl', ['$scope','$http',function($scope,$http) {
 		$http.get('data/burger.php?what=menu')
 		.success(function(data, status) {
 			$scope.menu = data;
+			$scope.getPopular();
 		})
 		.error(function(data, status) {
 			console.log("Failed to get menu",data,status);	
+		});
+	};
+
+	$scope.getPopular = function(){
+		$http.get('data/burger.php?what=popular')
+		.success(function(data, status) {
+			$scope.popular = data;
+			for(var i = 0; i < $scope.popular.length; i++) {
+				var menuItemId = $scope.popular[i].burger_id, menuItemPos = i+1;
+				$scope.menu[menuItemId].popularPosition = menuItemPos;
+			}
+		})
+		.error(function(data, status) {
+			console.log("Failed to get popular burgers",data,status);	
 		});
 	};
 
@@ -117,7 +133,7 @@ bt.directive('burgers',['$filter',function($filter) {
 		},
 		template:'<ul class="list-group">'+
 					'<li ng-repeat="item in calcedMenu | orderBy:[\'category\',\'name\']|filter:{description:search} " class="list-group-item">'+
-					'{{item.name}} <span ng-bind-html="item.category | category"></span><br/><small>{{item.description}}</small>'+
+					'{{item.name}} <span ng-show="item.popularPosition" class="popular position-{{item.popularPosition}}"><i class="fa fa-star"></i> Popular</span> <span ng-bind-html="item.category | category"></span><br/><small>{{item.description}}</small>'+
 						'<div class="btn-group pull-right">'+
 							'<button ng-repeat="option in item.options" ng-click="send(option.id)" type="button" class="btn btn-default">{{option.size}}</button>'+
 						'</div>'+

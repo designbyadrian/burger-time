@@ -51,6 +51,15 @@ if(isset($_GET['what'])) {
 			echo json_encode($result);
 
 			break;
+
+		case "popular":
+
+			$sth = $db->prepare("SELECT burger_id, COUNT(burger_id) AS burger_count, menu.id AS menu_item_id,menu.name,menu.size FROM orders as o, menu WHERE o.burger_id = menu_item_id GROUP BY burger_id ORDER BY burger_count DESC, size DESC LIMIT 3");
+			$sth->execute();
+			$result = $sth->fetchAll();
+			echo json_encode($result);
+
+			break;
 	}
 
 
