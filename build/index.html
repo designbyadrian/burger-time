@@ -37,13 +37,13 @@
 					<li class="list-group-item">Chips <small class="badge alert-info">{{getChips()}}</small></li>
 				</ul>
 
-				<h4>All orders <small><a class="link" ng-click="toggleAll()" href="#" ng-if="!showAll">Show <i class="fa fa-chevron-down"></i></a>
+				<h4>All orders <small ng-if="order.length>0"><a class="link" ng-click="toggleAll()" href="#" ng-if="!showAll">Show <i class="fa fa-chevron-down"></i></a>
 					<a class="link" ng-click="toggleAll()" href="#" ng-if="showAll">Hide <i class="fa fa-chevron-up"></i></a></small></h4>
 
 				<ul ng-show="showAll" class="list-group">
 					<li ng-repeat="item in order track by $index" class="list-group-item"><button ng-click="cancelOrder(item.id)" class="btn btn-danger btn-xs pull-right"><i class="fa fa-ban"></i></button>{{item.name}} <small>{{item.size}}"</small> <br/><small>{{item.owner}}</small></li>
 				</ul>
-
+				<small ng-if="order.length<1">No orders today <i class="fa fa-frown-o"></i></small>
 				
 
 			</div>
