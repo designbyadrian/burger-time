@@ -30,12 +30,14 @@ bt.controller('MainCtrl', ['$scope','$http',function($scope,$http) {
 
 	$scope.getPopular = function(){
 		$http.get('data/burger.php?what=popular')
-		.success(function(data, status) {
-			$scope.popular = data;
-			for(var i = 0; i < $scope.popular.length; i++) {
-				var menuItemId = $scope.popular[i].burger_id, menuItemPos = i+1;
-				$scope.menu[menuItemId].popularPosition = menuItemPos;
-			}
+		.success(function(burgers, status) {
+			angular.forEach($scope.menu,function(burger){
+				for(var i = 0;i<3;i++) {
+					if(burger.name.toLowerCase()==burgers[i].name.toLowerCase()) {
+						burger.popularPosition = (i+1);
+					}
+				}
+			});
 		})
 		.error(function(data, status) {
 			console.log("Failed to get popular burgers",data,status);	
