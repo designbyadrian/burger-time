@@ -2,4 +2,4 @@ Burger Time!
 ==========
 > X Burger House company order list
 
-If you wish to contribute to this project, see list of 'issues' - features that could be implemented. Add a feature request, or add it yourself!
+If you wish to contribute to this project, see list of 'issues'. Add or comment on a feature request, or fork the burger yourself!
